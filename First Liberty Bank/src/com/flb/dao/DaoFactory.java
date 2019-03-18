@@ -1,14 +1,12 @@
 package com.flb.dao;
 
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
-
 import com.flb.entity.Account;
-import com.flb.entity.Passbook;
 
 public class DaoFactory {
 
@@ -16,19 +14,15 @@ public class DaoFactory {
 
 	public static void RegisterAccount(String username, String password, String name) {
 
-		Passbook passbook=new Passbook();
-		
 		Account newAccount = new Account();
 		newAccount.setUsername(username);
 		newAccount.setPassword(password);
 		newAccount.setName(name);
 		newAccount.setInvalidPasswordCount(0);
-		newAccount.setPassbook(passbook);
 
 		Session session = sf.openSession();
 		session.beginTransaction();
 		session.save(newAccount);
-		session.save(passbook);
 		session.getTransaction().commit();
 		session.close();
 	}
@@ -67,14 +61,15 @@ public class DaoFactory {
 		System.out.println(count.get(0));
 		session.getTransaction().commit();
 		session.close();
-        return count.get(0);
+		return count.get(0);
 	}
-	
+
 	public static void addInvalidPasswordCount(String username, int invalidPasswordCount) {
-		Session session=sf.openSession();
+		Session session = sf.openSession();
 		session.beginTransaction();
-		Query query=session.createNativeQuery("update account set invalidpasswordcount=:newInvalidPasswordCount where username=:username");
-		query.setParameter("newInvalidPasswordCount", invalidPasswordCount+1);
+		Query query = session.createNativeQuery(
+				"update account set invalidpasswordcount=:newInvalidPasswordCount where username=:username");
+		query.setParameter("newInvalidPasswordCount", invalidPasswordCount + 1);
 		query.setParameter("username", username);
 		query.executeUpdate();
 		session.getTransaction().commit();

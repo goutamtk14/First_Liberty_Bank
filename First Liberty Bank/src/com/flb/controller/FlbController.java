@@ -20,14 +20,12 @@ public class FlbController {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
-		
-		
 		if (password.equals(FlbService.checkAccountPassword(username))) {
 
-			HttpSession session=request.getSession();
+			HttpSession session = request.getSession();
 			session.setAttribute("username", username);
 			ModelAndView mv = new ModelAndView();
-			mv.addObject("AccountData",FlbService.getAccountData(username));
+			mv.addObject("AccountData", FlbService.getAccountData(username));
 			mv.setViewName("welcome");
 			return mv;
 		}
@@ -41,19 +39,18 @@ public class FlbController {
 
 		else {
 			FlbService.invalidPasswordCount(username);
-			int invalidPasswordCount=DaoFactory.getInvalidPasswordCount(username);
-			if(invalidPasswordCount>=4) {
+			int invalidPasswordCount = DaoFactory.getInvalidPasswordCount(username);
+			if (invalidPasswordCount >= 4) {
 				ModelAndView mv = new ModelAndView();
 				mv.setViewName("lock");
 				return mv;
 
-			}
-			else {
-			ModelAndView mv = new ModelAndView();
-			mv.addObject("Error", "Invalid Password");
-			mv.addObject("invalidPasswordCount",4-invalidPasswordCount);
-			mv.setViewName("login");
-			return mv;
+			} else {
+				ModelAndView mv = new ModelAndView();
+				mv.addObject("Error", "Invalid Password");
+				mv.addObject("invalidPasswordCount", 4 - invalidPasswordCount);
+				mv.setViewName("login");
+				return mv;
 			}
 		}
 
@@ -63,7 +60,7 @@ public class FlbController {
 	public ModelAndView Register(HttpServletRequest request, HttpServletResponse response) {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		String name=request.getParameter("name");
+		String name = request.getParameter("name");
 		FlbService.Register(username, password, name);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("register", "Registration Successful");

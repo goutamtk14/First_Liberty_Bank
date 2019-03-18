@@ -5,38 +5,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity
-@SequenceGenerator(name="flbsequencegenerator", initialValue=20190000, allocationSize=1)
+@SequenceGenerator(name = "flbsequencegenerator", initialValue = 20190000, allocationSize = 1)
 public class Account {
 
 	@Id
-	private String username;
-	@Column(unique=true)
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="flbsequencegenerator")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flbsequencegenerator")
+	@Column(name="accountno")
 	private long accountno;
+	@Column(name="username", unique = true, nullable = false)
+	private String username;
+	@Column(name="password")
 	private String password;
 	private String name;
 	private int invalidPasswordCount;
-	@OneToOne
-	private Passbook passbook;
 
 	public long getAccountno() {
 		return accountno;
-	}
-
-	public void setAccountno(long accountno) {
-		this.accountno = accountno;
-	}
-
-	public Passbook getPassbook() {
-		return passbook;
-	}
-
-	public void setPassbook(Passbook passbook) {
-		this.passbook = passbook;
 	}
 
 	public String getName() {
