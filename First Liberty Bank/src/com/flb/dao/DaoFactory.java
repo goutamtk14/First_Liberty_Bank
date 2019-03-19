@@ -10,12 +10,13 @@ public class DaoFactory {
 
 	static SessionFactory sf = new Configuration().configure().buildSessionFactory();
 
-	public static void RegisterAccount(String username, String password, String name) {
+	public static void RegisterAccount(String username, String password, String name, long mobilenumber) {
 
 		Account newAccount = new Account();
 		newAccount.setUsername(username);
 		newAccount.setPassword(password);
 		newAccount.setName(name);
+		newAccount.setMobilenumber(mobilenumber);
 		newAccount.setInvalidPasswordCount(0);
 
 		Session session = sf.openSession();
@@ -31,10 +32,10 @@ public class DaoFactory {
 		session.beginTransaction();
 		Query query = session.createQuery("select password from Account where username=:username");
 		query.setParameter("username", username);
-		String password = (String)query.uniqueResult();
+		String password = (String) query.uniqueResult();
 		session.getTransaction().commit();
 		session.close();
-		if (password== null) {
+		if (password == null) {
 			return "InvalidUsername";
 		} else
 			return password;
@@ -44,7 +45,8 @@ public class DaoFactory {
 	public static Account getAccountData(String username) {
 		Session session = sf.openSession();
 		session.beginTransaction();
-		Account accountData = (Account)session.createQuery("from Account where username=:username").setParameter("username", username).uniqueResult();
+		Account accountData = (Account) session.createQuery("from Account where username=:username")
+				.setParameter("username", username).uniqueResult();
 		session.getTransaction().commit();
 		session.close();
 		return accountData;
@@ -55,7 +57,7 @@ public class DaoFactory {
 		session.beginTransaction();
 		Query query = session.createQuery("select invalidPasswordCount from Account where username=:username");
 		query.setParameter("username", username);
-		int count = (int)query.uniqueResult();
+		int count = (int) query.uniqueResult();
 		session.getTransaction().commit();
 		session.close();
 		return count;
@@ -71,5 +73,17 @@ public class DaoFactory {
 		query.executeUpdate();
 		session.getTransaction().commit();
 		session.close();
+	}
+
+	public static String getName(long accountno) {
+		Session session = sf.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("select name from Account where accountno=:accountno");
+		query.setParameter("accountno", accountno);
+		String name = (String) query.uniqueResult();
+		session.getTransaction().commit();
+		session.close();
+		return name;
+
 	}
 }

@@ -18,6 +18,9 @@ if(session.getAttribute("username")==null){
 }
 %>
 <h3 class="text-center">First Liberty Bank</h3>
-Welcome ${AccountData.name}
+Welcome ${name}
+
+<a href="transfer.jsp">Money Transfer</a>
+
 </body>
 </html>

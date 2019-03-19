@@ -18,6 +18,15 @@ public class Account {
 	private String password;
 	private String name;
 	private int invalidPasswordCount;
+	private long mobilenumber;
+
+	public long getMobilenumber() {
+		return mobilenumber;
+	}
+
+	public void setMobilenumber(long mobilenumber) {
+		this.mobilenumber = mobilenumber;
+	}
 
 	public long getAccountno() {
 		return accountno;

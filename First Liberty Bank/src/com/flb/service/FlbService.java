@@ -4,9 +4,9 @@ import com.flb.entity.Account;
 
 public class FlbService {
 
-	public static void Register(String username, String password, String name) {
+	public static void Register(String username, String password, String name, long mobilenumber) {
 
-		DaoFactory.RegisterAccount(username, password, name);
+		DaoFactory.RegisterAccount(username, password, name, mobilenumber);
 
 	}
 
@@ -23,5 +23,13 @@ public class FlbService {
 
 		DaoFactory.addInvalidPasswordCount(username, DaoFactory.getInvalidPasswordCount(username));
 
+	}
+	public static void zeroinvalidPasswordCount(String username) {
+		DaoFactory.addInvalidPasswordCount(username, 0);
+
+	}
+	
+	public static String getName(long accountno) {
+		return DaoFactory.getName(accountno);
 	}
 }

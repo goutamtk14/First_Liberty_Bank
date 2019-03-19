@@ -11,6 +11,7 @@ public class Passbook {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int transactionno;
+	private long accountno;
 	private String date;
 	private String particulars;
 	private double credit;
@@ -59,6 +60,14 @@ public class Passbook {
 
 	public int getTransactionno() {
 		return transactionno;
+	}
+
+	public long getAccountno() {
+		return accountno;
+	}
+
+	public void setAccountno(long accountno) {
+		this.accountno = accountno;
 	}
 
 }

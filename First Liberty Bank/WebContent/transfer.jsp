@@ -12,13 +12,18 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+<%
+if(session.getAttribute("username")==null){
+	response.sendRedirect("login.jsp");
+}
+%>
 <h3 class="text-center">First Liberty Bank</h3>
-<form action="register" method="POST">
-Name:<input type="text" name="name">
-Mobile number:<input type="number" min="0" maxlength="10" name="mobile">
-Username:<input type="text" name="username">
-Password:<input type="password" name="password">
-<input type="submit" value="Register">
-</form>
+Welcome ${name}
+	<form action="transfer" method="POST">
+		Receiver Bank Account Number:<input type="number" min="0" name="receiveraccountno">
+		Amount:<input type="number" min="0" name="amount"> 
+		Add a Message(optional):<input type ="text" name="particulars"> 
+		<input type="submit" value="Send">
+	</form>
 </body>
 </html>
