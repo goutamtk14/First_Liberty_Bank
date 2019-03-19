@@ -10,14 +10,11 @@ import javax.persistence.SequenceGenerator;
 @Entity
 @SequenceGenerator(name = "flbsequencegenerator", initialValue = 20190000, allocationSize = 1)
 public class Account {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "flbsequencegenerator")
-	@Column(name="accountno")
 	private long accountno;
-	@Column(name="username", unique = true, nullable = false)
+	@Column(unique = true, nullable = false)
 	private String username;
-	@Column(name="password")
 	private String password;
 	private String name;
 	private int invalidPasswordCount;
@@ -57,5 +54,4 @@ public class Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 }

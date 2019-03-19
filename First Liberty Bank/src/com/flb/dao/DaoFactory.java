@@ -1,10 +1,8 @@
 package com.flb.dao;
 
-import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import com.flb.entity.Account;
 
@@ -33,20 +31,20 @@ public class DaoFactory {
 		session.beginTransaction();
 		Query query = session.createQuery("select password from Account where username=:username");
 		query.setParameter("username", username);
-		List<String> password = (List<String>) query.list();
+		String password = (String)query.uniqueResult();
 		session.getTransaction().commit();
 		session.close();
-		if (password.size() == 0) {
+		if (password== null) {
 			return "InvalidUsername";
 		} else
-			return password.get(0);
+			return password;
 
 	}
 
 	public static Account getAccountData(String username) {
 		Session session = sf.openSession();
 		session.beginTransaction();
-		Account accountData = (Account) session.get(Account.class, username);
+		Account accountData = (Account)session.createQuery("from Account where username=:username").setParameter("username", username).uniqueResult();
 		session.getTransaction().commit();
 		session.close();
 		return accountData;
@@ -57,11 +55,10 @@ public class DaoFactory {
 		session.beginTransaction();
 		Query query = session.createQuery("select invalidPasswordCount from Account where username=:username");
 		query.setParameter("username", username);
-		List<Integer> count = (List<Integer>) query.list();
-		System.out.println(count.get(0));
+		int count = (int)query.uniqueResult();
 		session.getTransaction().commit();
 		session.close();
-		return count.get(0);
+		return count;
 	}
 
 	public static void addInvalidPasswordCount(String username, int invalidPasswordCount) {

@@ -1,43 +1,21 @@
 package com.flb.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Passbook {
 
 	@Id
-	@Column(name="Paccountno")
-	private long useraccountno;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int transactionno;
 	private String date;
 	private String particulars;
 	private double credit;
 	private double debit;
 	private double balance;
-	@OneToOne
-	@JoinColumn(name = "accountno", referencedColumnName="accountno")
-	@MapsId
-	private Account account;
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public long getUseraccountno() {
-		return useraccountno;
-	}
-
-	public void setUseraccountno(long useraccountno) {
-		this.useraccountno = useraccountno;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
 
 	public String getDate() {
 		return date;
@@ -77,6 +55,10 @@ public class Passbook {
 
 	public void setBalance(double balance) {
 		this.balance = balance;
+	}
+
+	public int getTransactionno() {
+		return transactionno;
 	}
 
 }
