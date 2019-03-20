@@ -12,19 +12,12 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<%
-if(session.getAttribute("username")==null){
-	response.sendRedirect("login.jsp");
-}
-%>
 <h3 class="text-center">First Liberty Bank</h3>
-Welcome ${name}
-${Error}
-	<form action="transfer" method="POST">
-		Receiver Bank Account Number:<input type="number" min="0" name="receiveraccountno">
-		Amount:<input type="number" min="0" name="amount"> 
-		Add a Message(optional):<input type ="text" name="particulars"> 
-		<input type="submit" value="Send">
-	</form>
+
+<form action="deposit" method="POST">
+Account Number:<input type="number" name="accountno" min="0">
+Amount:<input type="number" name="amount" min="0">
+<input type="submit" value="Deposit">
+</form>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.flb.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +15,9 @@ public class Passbook {
 	private long accountno;
 	private String date;
 	private String particulars;
+	@Column(nullable=true)
 	private double credit;
+	@Column(nullable=true)
 	private double debit;
 	private double balance;
 

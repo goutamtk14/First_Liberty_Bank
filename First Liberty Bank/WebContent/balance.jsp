@@ -1,3 +1,4 @@
+<%@page import="com.flb.dao.DaoFactory"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -19,12 +20,6 @@ if(session.getAttribute("username")==null){
 %>
 <h3 class="text-center">First Liberty Bank</h3>
 Welcome ${name}
-${Error}
-	<form action="transfer" method="POST">
-		Receiver Bank Account Number:<input type="number" min="0" name="receiveraccountno">
-		Amount:<input type="number" min="0" name="amount"> 
-		Add a Message(optional):<input type ="text" name="particulars"> 
-		<input type="submit" value="Send">
-	</form>
+Your account balance is <%=DaoFactory.getBalance((long)session.getAttribute("accountno")) %>
 </body>
 </html>

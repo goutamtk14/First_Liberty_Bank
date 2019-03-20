@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import com.flb.entity.Account;
+import com.flb.entity.Passbook;
 
 public class DaoFactory {
 
@@ -36,7 +37,7 @@ public class DaoFactory {
 		session.getTransaction().commit();
 		session.close();
 		if (password == null) {
-			return "InvalidUsername";
+			return "Invalid";
 		} else
 			return password;
 
@@ -68,7 +69,7 @@ public class DaoFactory {
 		session.beginTransaction();
 		Query query = session.createNativeQuery(
 				"update account set invalidpasswordcount=:newInvalidPasswordCount where username=:username");
-		query.setParameter("newInvalidPasswordCount", invalidPasswordCount + 1);
+		query.setParameter("newInvalidPasswordCount", invalidPasswordCount);
 		query.setParameter("username", username);
 		query.executeUpdate();
 		session.getTransaction().commit();
@@ -83,7 +84,56 @@ public class DaoFactory {
 		String name = (String) query.uniqueResult();
 		session.getTransaction().commit();
 		session.close();
-		return name;
-
+		if (name == null) {
+			return "Invalid";
+		} else {
+			return name;
+		}
 	}
+
+	public static double getBalance(long accountno) {
+		Session session = sf.openSession();
+		session.beginTransaction();
+		Query query = session.createNativeQuery("select balance from passbook where accountno=:accountno order by transactionno DESC LIMIT 1");
+		query.setParameter("accountno", accountno);
+		Double balance = (Double)query.uniqueResult();
+		session.getTransaction().commit();
+		session.close();
+		if(balance==null) {
+			return 0;
+		}
+		else return balance;
+		
+	}
+	
+	public static void moneyTransfer(long receiveraccountno, long senderaccountno, String date, double amount, String senderparticular, String receiverparticular, double senderbalance, double receiverbalance) {
+		Session session=sf.openSession();
+		session.beginTransaction();
+		Passbook sender=new Passbook();
+		Passbook receiver=new Passbook();
+		sender.setAccountno(senderaccountno);
+		sender.setBalance(senderbalance);
+		sender.setDate(date);
+		sender.setDebit(amount);
+		sender.setParticulars(senderparticular);
+		receiver.setAccountno(receiveraccountno);
+		receiver.setBalance(receiverbalance);
+		receiver.setCredit(amount);
+		receiver.setDate(date);
+		receiver.setParticulars(receiverparticular);
+		session.save(sender);
+		session.save(receiver);
+		session.getTransaction().commit();
+		session.close();
+		}
+	
+	public static void creditdebitbalance(Passbook user) {
+		Session session=sf.openSession();
+		session.beginTransaction();
+		session.save(user);
+		session.getTransaction().commit();
+		session.close();
+	}
+	
+	
 }

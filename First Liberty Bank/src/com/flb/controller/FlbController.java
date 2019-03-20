@@ -25,16 +25,16 @@ public class FlbController {
 
 			FlbService.zeroinvalidPasswordCount(username);
 			HttpSession session = request.getSession();
-			Account useraccount=FlbService.getAccountData(username);
+			Account useraccount = FlbService.getAccountData(username);
 			session.setAttribute("username", username);
-			session.setAttribute("accountno",useraccount.getAccountno());
+			session.setAttribute("accountno", useraccount.getAccountno());
 			session.setAttribute("name", useraccount.getName());
 			ModelAndView mv = new ModelAndView();
 			mv.setViewName("welcome");
 			return mv;
 		}
 
-		else if (FlbService.checkAccountPassword(username).equals("InvalidUsername")) {
+		else if (FlbService.checkAccountPassword(username).equals("Invalid")) {
 			ModelAndView mv = new ModelAndView();
 			mv.addObject("Error", "Invalid Username");
 			mv.setViewName("login");
@@ -52,7 +52,7 @@ public class FlbController {
 			} else {
 				ModelAndView mv = new ModelAndView();
 				mv.addObject("Error", "Invalid Password");
-				mv.addObject("invalidPasswordCount", 4 - invalidPasswordCount);
+				mv.addObject("invalidPasswordCount", 4 - invalidPasswordCount+" attempts remaining");
 				mv.setViewName("login");
 				return mv;
 			}
@@ -65,7 +65,7 @@ public class FlbController {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String name = request.getParameter("name");
-		long mobilenumber=Long.parseLong(request.getParameter("mobile"));
+		long mobilenumber = Long.parseLong(request.getParameter("mobile"));
 		FlbService.Register(username, password, name, mobilenumber);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("register", "Registration Successful");
@@ -73,16 +73,42 @@ public class FlbController {
 		return mv;
 
 	}
-	
+
 	@RequestMapping("/transfer")
 	public ModelAndView MoneyTransfer(HttpServletRequest request, HttpServletResponse response) {
-		long receiveraccountno=Long.parseLong(request.getParameter("receiveraccountno"));
-		int amount=Integer.parseInt(request.getParameter("amount"));
-		String particulars=request.getParameter("particulars");
-		HttpSession session=request.getSession();
-	    session.getAttribute("username");
-	    
-		return null;
-		
+		long receiveraccountno = Long.parseLong(request.getParameter("receiveraccountno"));
+		String receivername = FlbService.getName(receiveraccountno);
+		if (receivername.equals("Invalid")) {
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("Error", "Invalid Bank Account Number");
+			mv.setViewName("transfer");
+			return mv;
+		} else {
+			double amount = Double.parseDouble(request.getParameter("amount"));
+			String particulars = request.getParameter("particulars");
+			HttpSession session = request.getSession();
+			long senderaccountno = (long) session.getAttribute("accountno");
+			String sendername = (String) session.getAttribute("name");
+			if(FlbService.moneyTransfer(receiveraccountno, senderaccountno, receivername, sendername, amount, particulars).equals("Insufficient")) {
+				ModelAndView mv=new ModelAndView();
+				mv.addObject("Error","Insufficient funds");
+				mv.setViewName("transfer");
+				return mv;
+			}
+			else {
+				ModelAndView mv=new ModelAndView();
+				mv.addObject("success","Transaction Successful");
+				mv.setViewName("balance");
+				return mv;
+			}
+			
 		}
+	}
+
+	@RequestMapping("/deposit")
+	public void depositbyBank(HttpServletRequest request, HttpServletResponse response) {
+		long accountno = Long.parseLong(request.getParameter("accountno"));
+		double amount = Double.parseDouble(request.getParameter("amount"));
+		FlbService.depositByBank(accountno, amount);
+	}
 }
