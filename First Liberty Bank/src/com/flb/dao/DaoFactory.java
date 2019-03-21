@@ -1,5 +1,8 @@
 package com.flb.dao;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -94,23 +97,25 @@ public class DaoFactory {
 	public static double getBalance(long accountno) {
 		Session session = sf.openSession();
 		session.beginTransaction();
-		Query query = session.createNativeQuery("select balance from passbook where accountno=:accountno order by transactionno DESC LIMIT 1");
+		Query query = session.createNativeQuery(
+				"select balance from passbook where accountno=:accountno order by transactionno DESC LIMIT 1");
 		query.setParameter("accountno", accountno);
-		Double balance = (Double)query.uniqueResult();
+		Double balance = (Double) query.uniqueResult();
 		session.getTransaction().commit();
 		session.close();
-		if(balance==null) {
+		if (balance == null) {
 			return 0;
-		}
-		else return balance;
-		
+		} else
+			return balance;
+
 	}
-	
-	public static void moneyTransfer(long receiveraccountno, long senderaccountno, String date, double amount, String senderparticular, String receiverparticular, double senderbalance, double receiverbalance) {
-		Session session=sf.openSession();
+
+	public static void moneyTransfer(long receiveraccountno, long senderaccountno, String date, double amount,
+			String senderparticular, String receiverparticular, double senderbalance, double receiverbalance) {
+		Session session = sf.openSession();
 		session.beginTransaction();
-		Passbook sender=new Passbook();
-		Passbook receiver=new Passbook();
+		Passbook sender = new Passbook();
+		Passbook receiver = new Passbook();
 		sender.setAccountno(senderaccountno);
 		sender.setBalance(senderbalance);
 		sender.setDate(date);
@@ -125,15 +130,26 @@ public class DaoFactory {
 		session.save(receiver);
 		session.getTransaction().commit();
 		session.close();
-		}
-	
+	}
+
 	public static void creditdebitbalance(Passbook user) {
-		Session session=sf.openSession();
+		Session session = sf.openSession();
 		session.beginTransaction();
 		session.save(user);
 		session.getTransaction().commit();
 		session.close();
 	}
-	
-	
+
+	public static List<Passbook> accountPassbook(long accountno) {
+		Session session = sf.openSession();
+		session.beginTransaction();
+		Query query = session.createQuery("select entries from Passbook entries where entries.accountno=:accountno");
+		query.setParameter("accountno", accountno);
+		List<Passbook> entries=(List<Passbook>)query.list();
+		session.getTransaction().commit();
+		session.close();
+		Collections.reverse(entries);
+		return entries;
+	}
+
 }

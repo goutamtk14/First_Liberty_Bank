@@ -1,5 +1,7 @@
 package com.flb.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.flb.dao.DaoFactory;
 import com.flb.entity.Account;
+import com.flb.entity.Passbook;
 import com.flb.service.FlbService;
 
 @Controller
@@ -52,7 +55,7 @@ public class FlbController {
 			} else {
 				ModelAndView mv = new ModelAndView();
 				mv.addObject("Error", "Invalid Password");
-				mv.addObject("invalidPasswordCount", 4 - invalidPasswordCount+" attempts remaining");
+				mv.addObject("invalidPasswordCount", 4 - invalidPasswordCount + " attempts remaining");
 				mv.setViewName("login");
 				return mv;
 			}
@@ -89,19 +92,20 @@ public class FlbController {
 			HttpSession session = request.getSession();
 			long senderaccountno = (long) session.getAttribute("accountno");
 			String sendername = (String) session.getAttribute("name");
-			if(FlbService.moneyTransfer(receiveraccountno, senderaccountno, receivername, sendername, amount, particulars).equals("Insufficient")) {
-				ModelAndView mv=new ModelAndView();
-				mv.addObject("Error","Insufficient funds");
+			if (FlbService
+					.moneyTransfer(receiveraccountno, senderaccountno, receivername, sendername, amount, particulars)
+					.equals("Insufficient")) {
+				ModelAndView mv = new ModelAndView();
+				mv.addObject("Error", "Insufficient funds");
 				mv.setViewName("transfer");
 				return mv;
-			}
-			else {
-				ModelAndView mv=new ModelAndView();
-				mv.addObject("success","Transaction Successful");
+			} else {
+				ModelAndView mv = new ModelAndView();
+				mv.addObject("success", "Transaction Successful");
 				mv.setViewName("balance");
 				return mv;
 			}
-			
+
 		}
 	}
 
@@ -110,5 +114,26 @@ public class FlbController {
 		long accountno = Long.parseLong(request.getParameter("accountno"));
 		double amount = Double.parseDouble(request.getParameter("amount"));
 		FlbService.depositByBank(accountno, amount);
+	}
+
+	@RequestMapping("/passbook")
+	public ModelAndView accountPassbook(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+
+		List<Passbook> entries = FlbService.accountPassbook((long) session.getAttribute("accountno"));
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("entries", entries);
+		mv.setViewName("passbook");
+		return mv;
+	}
+
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		session.invalidate();
+		ModelAndView mv=new ModelAndView();
+		mv.addObject("logout","You have been successfully logged out.");
+		mv.setViewName("login");
+		return mv;
 	}
 }

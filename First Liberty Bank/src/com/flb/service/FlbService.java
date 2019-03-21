@@ -2,6 +2,7 @@ package com.flb.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.flb.dao.DaoFactory;
 import com.flb.entity.Account;
@@ -45,16 +46,15 @@ public class FlbService {
 		Date date0 = new Date();
 		String date = format.format(date0);
 		double senderbalance = DaoFactory.getBalance(senderaccountno) - amount;
-		if(senderbalance<0) {
+		if (senderbalance < 0) {
 			return "Insufficient";
-		}
-		else {
-		double receiverbalance = DaoFactory.getBalance(receiveraccountno) + amount;
-		String senderparticular = particulars + " sent to " + receivername;
-		String receiverparticular = particulars + " sent by " + sendername;
-		DaoFactory.moneyTransfer(receiveraccountno, senderaccountno, date, amount, senderparticular, receiverparticular,
-				senderbalance, receiverbalance);
-		return "Success";
+		} else {
+			double receiverbalance = DaoFactory.getBalance(receiveraccountno) + amount;
+			String senderparticular = particulars + " sent to " + receivername;
+			String receiverparticular = particulars + " sent by " + sendername;
+			DaoFactory.moneyTransfer(receiveraccountno, senderaccountno, date, amount, senderparticular,
+					receiverparticular, senderbalance, receiverbalance);
+			return "Success";
 		}
 	}
 
@@ -69,5 +69,11 @@ public class FlbService {
 		user.setDate(date);
 		user.setParticulars("Deposit by Bank");
 		DaoFactory.creditdebitbalance(user);
+	}
+
+	public static List<Passbook> accountPassbook(long accountno) {
+		return DaoFactory.accountPassbook(accountno);
+		
+
 	}
 }

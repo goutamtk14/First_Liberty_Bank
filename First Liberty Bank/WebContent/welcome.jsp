@@ -23,7 +23,9 @@ ${success}
 
 <a href="transfer.jsp">Money Transfer</a>
 <a href="balance.jsp">Account Balance</a>
-
+<a href="passbook">Account Passbook</a>
+<a href="logout">Logout</a>
+<a href="aboutus.jsp">About Us</a>
 
 
 </body>
