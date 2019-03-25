@@ -14,13 +14,14 @@ public class DaoFactory {
 
 	static SessionFactory sf = new Configuration().configure().buildSessionFactory();
 
-	public static void RegisterAccount(String username, String password, String name, long mobilenumber) {
+	public static void RegisterAccount(String username, String password, String name, long mobilenumber, String email) {
 
 		Account newAccount = new Account();
 		newAccount.setUsername(username);
 		newAccount.setPassword(password);
 		newAccount.setName(name);
 		newAccount.setMobilenumber(mobilenumber);
+		newAccount.setEmail(email);
 		newAccount.setInvalidPasswordCount(0);
 
 		Session session = sf.openSession();

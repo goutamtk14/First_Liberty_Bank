@@ -19,6 +19,15 @@ public class Account {
 	private String name;
 	private int invalidPasswordCount;
 	private long mobilenumber;
+	private String email;
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public long getMobilenumber() {
 		return mobilenumber;

@@ -10,9 +10,9 @@ import com.flb.entity.Passbook;
 
 public class FlbService {
 
-	public static void Register(String username, String password, String name, long mobilenumber) {
+	public static void Register(String username, String password, String name, long mobilenumber, String email) {
 
-		DaoFactory.RegisterAccount(username, password, name, mobilenumber);
+		DaoFactory.RegisterAccount(username, password, name, mobilenumber, email);
 
 	}
 

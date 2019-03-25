@@ -69,7 +69,8 @@ public class FlbController {
 		String password = request.getParameter("password");
 		String name = request.getParameter("name");
 		long mobilenumber = Long.parseLong(request.getParameter("mobile"));
-		FlbService.Register(username, password, name, mobilenumber);
+		String email=request.getParameter("email");
+		FlbService.Register(username, password, name, mobilenumber, email);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("register", "Registration Successful");
 		mv.setViewName("login");
