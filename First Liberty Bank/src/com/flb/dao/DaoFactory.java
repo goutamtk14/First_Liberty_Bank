@@ -2,7 +2,7 @@ package com.flb.dao;
 
 import java.util.Collections;
 import java.util.List;
-
+import javax.persistence.PersistenceException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -14,7 +14,8 @@ public class DaoFactory {
 
 	static SessionFactory sf = new Configuration().configure().buildSessionFactory();
 
-	public static void RegisterAccount(String username, String password, String name, long mobilenumber, String email) {
+	public static String RegisterAccount(String username, String password, String name, long mobilenumber,
+			String email) {
 
 		Account newAccount = new Account();
 		newAccount.setUsername(username);
@@ -27,8 +28,14 @@ public class DaoFactory {
 		Session session = sf.openSession();
 		session.beginTransaction();
 		session.save(newAccount);
-		session.getTransaction().commit();
-		session.close();
+		try {
+			session.getTransaction().commit();
+			session.close();
+			return "success";
+		} catch (PersistenceException e) {
+			session.close();
+			return "Error";
+		}
 	}
 
 	public static String getAccountPassword(String username) {
@@ -146,7 +153,7 @@ public class DaoFactory {
 		session.beginTransaction();
 		Query query = session.createQuery("select entries from Passbook entries where entries.accountno=:accountno");
 		query.setParameter("accountno", accountno);
-		List<Passbook> entries=(List<Passbook>)query.list();
+		List<Passbook> entries = (List<Passbook>) query.list();
 		session.getTransaction().commit();
 		session.close();
 		Collections.reverse(entries);

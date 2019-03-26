@@ -3,17 +3,16 @@ package com.flb.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 import com.flb.dao.DaoFactory;
 import com.flb.entity.Account;
 import com.flb.entity.Passbook;
 
 public class FlbService {
 
-	public static void Register(String username, String password, String name, long mobilenumber, String email) {
+	public static String Register(String username, String password, String name, long mobilenumber, String email) {
 
-		DaoFactory.RegisterAccount(username, password, name, mobilenumber, email);
-
+		return DaoFactory.RegisterAccount(username, password, name, mobilenumber, email);
+		
 	}
 
 	public static String checkAccountPassword(String username) {
@@ -73,7 +72,6 @@ public class FlbService {
 
 	public static List<Passbook> accountPassbook(long accountno) {
 		return DaoFactory.accountPassbook(accountno);
-		
 
 	}
 }

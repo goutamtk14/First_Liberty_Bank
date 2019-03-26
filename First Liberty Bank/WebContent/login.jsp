@@ -9,7 +9,8 @@ ${invalidPasswordCount}
 Username:<input type="text" name="username" id="username" required onchange="usernamevalidation()">
 <p id="invalidusername"></p>
 Password:<input type="password" name="password" id="password" required onchange="passwordvalidation()">
-<p id="invalidpassword"></p>
+<p id="invalidpassword0"></p>
+
 <input type="submit" value="Login">
 </form>
 Don't have a account? <a href="register.jsp">Register</a>
@@ -35,13 +36,12 @@ function usernamevalidation(){
 
 function passwordvalidation(){
 	var password=document.getElementById("password").value;
-	var values=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
-	if(password.match(values)){
-		document.getElementById("invalidpassword").innerHTML="";
+	if(password.length>=8){
+		document.getElementById("invalidpassword0").innerHTML="";
 		return true;
 	}
 	else{
-		document.getElementById("invalidpassword").innerHTML="Password must contain the following: 1. A uppercase letter. 2. A lowercase letter.	3. Minimum 8 characters. 4. Maximum 20 characters.	5. A numeric digit. 6. A special character.";
+		document.getElementById("invalidpassword0").innerHTML="Invalid password.";
 		return false;
 	}
 }

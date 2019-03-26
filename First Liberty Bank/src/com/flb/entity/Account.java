@@ -18,7 +18,9 @@ public class Account {
 	private String password;
 	private String name;
 	private int invalidPasswordCount;
+	@Column(unique= true)
 	private long mobilenumber;
+	@Column(unique= true)
 	private String email;
 
 	public String getEmail() {

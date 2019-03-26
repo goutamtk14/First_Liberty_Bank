@@ -69,13 +69,19 @@ public class FlbController {
 		String password = request.getParameter("password");
 		String name = request.getParameter("name");
 		long mobilenumber = Long.parseLong(request.getParameter("mobile"));
-		String email=request.getParameter("email");
-		FlbService.Register(username, password, name, mobilenumber, email);
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("register", "Registration Successful");
-		mv.setViewName("login");
-		return mv;
-
+		String email = request.getParameter("email");
+		if ((FlbService.Register(username, password, name, mobilenumber, email)).equals("success")) {
+			ModelAndView mv = new ModelAndView();
+			mv.addObject("register", "Registration Successful");
+			mv.setViewName("login");
+			return mv;
+		}
+		else {
+		 ModelAndView mv = new ModelAndView();
+		 mv.addObject("Error", "The specified account already exists.");
+		 mv.setViewName("register");
+		 return mv;
+		 }
 	}
 
 	@RequestMapping("/transfer")
@@ -132,8 +138,8 @@ public class FlbController {
 	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		session.invalidate();
-		ModelAndView mv=new ModelAndView();
-		mv.addObject("logout","You have been successfully logged out.");
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("logout", "You have been successfully logged out.");
 		mv.setViewName("login");
 		return mv;
 	}
