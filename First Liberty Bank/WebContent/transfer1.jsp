@@ -1,5 +1,3 @@
-<%@page import="com.flb.dao.DaoFactory"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -81,21 +79,22 @@ if(session.getAttribute("username")==null){
   <a href="welcome.jsp"><img src="https://myfirstliberty.com/img/logo@2x.png" alt="First Liberty Bank"></a>
 </div>
 <nav class="navbar bg-dark navbar-dark sticky-top">
-  <a class="navbar-brand" href="#">First Liberty Online Banking</a>
+  <a class="navbar-brand" href="#">First Liberty Money Transfer</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
     <ul class="navbar-nav">
+     
       <li class="nav-item">
         <a class="nav-link" href="welcome.jsp">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="transfer.jsp">Money Transfer</a>
-      </li>
-      <li class="nav-item">
         <a class="nav-link" href="balance.jsp">Account Balance</a>
       </li>  
+      <li class="nav-item">
+        <a class="nav-link" href="passbook">Account Passbook</a>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="contact.jsp">Contact</a>
       </li>
@@ -108,36 +107,69 @@ if(session.getAttribute("username")==null){
     </ul>
   </div>  
 </nav><br>
-<h3 class="text-center">Welcome ${name}</h3>
-<p style="text-align:center">Your account balance is <%=DaoFactory.getBalance((long)session.getAttribute("accountno")) %>
-</p>
-<div class="container">
-<table class="table table-hover">
-<thead>
-<tr>
-<th>Date</th>
-<th>Particulars</th>
-<th>Credit</th>
-<th>Debit</th>
-<th>Balance</th>
-</tr>
-</thead>
-<tbody>
-<c:forEach items="${entries }" var="entry">
-<tr>
-<td><c:out value="${entry.date}"></c:out></td>
-<td><c:out value="${entry.particulars}"></c:out></td>
-<td><c:out value="${entry.credit}"></c:out></td>
-<td><c:out value="${entry.debit}"></c:out></td>
-<td><c:out value="${entry.balance}"></c:out></td>
-</tr>
-</c:forEach>
-</tbody>
-</table>
-</div>
+<p class="text-danger" style="text-align:center">${Error}</p>
+<form action="transfer" method="POST" onsubmit="return transfervalidation()" style="max-width:500px;margin:auto">
+  <h5 class="text-center">Money Transfer</h5>
+  <div class="input-container">
+    <i class="fa fa-user icon"></i>
+    <input class="input-field" type="number" placeholder="Reciever Account Number" name="recieveraccountno" id="recieveraccountno" required onchange="recieveraccountnovalidation()">
+  </div>
+  <p id="invalidrecieveraccountno" class="text-danger" style="text-align:center"></p>
+
+  <div class="input-container">
+    <i class="fa fa-key icon"></i>
+    <input class="input-field" type="number" placeholder="Amount" name="amount" id="amount" required onchange="amountvalidation()">
+  </div>
+<p id="invalidamount" class="text-danger" style="text-align:center"></p>
+<div class="input-container">
+    <i class="fa fa-key icon"></i>
+    <input class="input-field" type="text" placeholder="What's this for?" name="particulars" id="particulars">
+  </div>
+  <button type="submit" class="btn">Send</button>
+</form><br>
 <footer class="text-center">
 <pre>
   <span><a href="contact.jsp">   Contact   </a></span><span><a href="aboutus.jsp">   About Us   </a></span>
 </pre>
 </footer>
+
+<script type="text/javascript">
+function receiveraccountnovalidation(){
+	var receiveraccountno=document.getElementById("receiveraccountno").value;
+	var values=/^[0-9]*$/;
+	if(receiveraccountno.length!=8){
+		document.getElementById("invalidreceiveraccountno").innerHTML="Please enter a valid 8 digit First Liberal Bank Account number.";
+		return false;
+	}
+	else if(receiveraccountno.match(values)){
+		document.getElementById("invalidreceiveraccountno").innerHTML="";
+		return true;
+	}
+	else{
+		document.getElementById("invalidreceiveraccountno").innerHTML="Invalid Account number.";
+		return false;
+	}
+}
+
+function amountvalidation(){
+	var amount=document.getElementById("amount").value;
+	if(amount<=0){
+		document.getElementById("invalidamount").innerHTML="Invalid amount."
+		return false;
+	}
+	else{
+		document.getElementById("invalidamount").innerHTML=""
+			return true;
+	}
+}
+
+function transfervalidation(){
+	if(receiveraccountnovalidation() && amountvalidation()){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+</script>
 <%@include file="./footer.jsp"%>

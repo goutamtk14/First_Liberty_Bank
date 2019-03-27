@@ -20,7 +20,6 @@ public class FlbController {
 
 	@RequestMapping("/login")
 	public ModelAndView Login(HttpServletRequest request, HttpServletResponse response) {
-
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
