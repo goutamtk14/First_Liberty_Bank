@@ -81,9 +81,9 @@ if(session.getAttribute("username")==null){
 <div class="jumbotron text-center" style="margin-bottom:0">
   <a href="welcome.jsp"><img src="https://myfirstliberty.com/img/logo@2x.png" alt="First Liberty Bank"></a>
 </div>
-<nav class="navbar navar-expand-md bg-dark navbar-dark sticky-top">
-  <a class="navbar-brand" href="#">First Liberty Online Banking</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+<nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
+  <a class="navbar-brand" href="#">Account Passbook</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
@@ -107,7 +107,7 @@ if(session.getAttribute("username")==null){
         <a class="nav-link" href="logout">Logout</a>
       </li>     
     </ul>
-  </div>  
+</div>  
 </nav><br>
 <h3 class="text-center">Welcome ${name}</h3>
 <p style="text-align:center">Your account balance is <%=DaoFactory.getBalance((long)session.getAttribute("accountno")) %>
