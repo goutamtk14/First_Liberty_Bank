@@ -79,7 +79,7 @@ if(session.getAttribute("username")==null){
 <div class="jumbotron text-center" style="margin-bottom:0">
   <a href="welcome.jsp"><img src="https://myfirstliberty.com/img/logo@2x.png" alt="First Liberty Bank"></a>
 </div>
-<nav class="navbar bg-dark navbar-dark sticky-top">
+<nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
   <a class="navbar-brand" href="#">First Liberty Money Transfer</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
@@ -113,7 +113,7 @@ if(session.getAttribute("username")==null){
   <h5 class="text-center">Money Transfer</h5>
   <div class="input-container">
     <i class="fa fa-user icon"></i>
-    <input class="input-field" type="number" placeholder="Reciever Account Number" name="recieveraccountno" id="recieveraccountno" required onchange="receiveraccountnovalidation()">
+    <input class="input-field" type="number" placeholder="Reciever Account Number" name="receiveraccountno" id="recieveraccountno" required onchange="receiveraccountnovalidation()">
   </div>
   <p id="invalidrecieveraccountno" class="text-danger" style="text-align:center"></p>
 
