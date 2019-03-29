@@ -74,13 +74,14 @@ body  {
 <%
 if(session.getAttribute("username")==null){
 	response.sendRedirect("login.jsp");
+	return;
 }
 %>
 <div class="jumbotron text-center" style="margin-bottom:0">
   <a href="welcome.jsp"><img src="https://myfirstliberty.com/img/logo@2x.png" alt="First Liberty Bank"></a>
 </div>
-<nav class="navbar bg-dark navbar-dark sticky-top">
-  <a class="navbar-brand" href="#">First Liberty Online Banking</a>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
+  <a class="navbar-brand" href="#">Account Balance</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -88,11 +89,11 @@ if(session.getAttribute("username")==null){
     <ul class="navbar-nav">
      
       <li class="nav-item">
+        <a class="nav-link" href="welcome.jsp">Home</a>
+      </li> 
+      <li class="nav-item">
         <a class="nav-link" href="transfer.jsp">Money Transfer</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="balance.jsp">Account Balance</a>
-      </li>  
       <li class="nav-item">
         <a class="nav-link" href="passbook">Account Passbook</a>
       </li>

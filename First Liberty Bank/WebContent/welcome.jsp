@@ -74,12 +74,13 @@ body  {
 <%
 if(session.getAttribute("username")==null){
 	response.sendRedirect("login.jsp");
+	return;
 }
 %>
 <div class="jumbotron text-center" style="margin-bottom:0">
   <a href="welcome.jsp"><img src="https://myfirstliberty.com/img/logo@2x.png" alt="First Liberty Bank"></a>
 </div>
-<nav class="navbar bg-dark navbar-dark sticky-top">
+<nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
   <a class="navbar-brand" href="#">First Liberty Online Banking</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
