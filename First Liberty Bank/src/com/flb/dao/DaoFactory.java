@@ -17,6 +17,7 @@ public class DaoFactory {
 	public static String RegisterAccount(String username, String password, String name, long mobilenumber,
 			String email) {
 
+		
 		Account newAccount = new Account();
 		newAccount.setUsername(username);
 		newAccount.setPassword(password);

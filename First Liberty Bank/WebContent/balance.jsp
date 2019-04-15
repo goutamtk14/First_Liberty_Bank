@@ -63,7 +63,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
    
 }
 body  {
-  background-image: url(http://sfwallpaper.com/images/background-image-for-website-1.jpg);
+  background-image: url(img/background.jpg);
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -78,7 +78,7 @@ if(session.getAttribute("username")==null){
 }
 %>
 <div class="jumbotron text-center" style="margin-bottom:0">
-  <a href="welcome.jsp"><img src="https://myfirstliberty.com/img/logo@2x.png" alt="First Liberty Bank"></a>
+  <a href="welcome.jsp"><img src="img/flblogo.png" alt="First Liberty Bank"></a>
 </div>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
   <a class="navbar-brand" href="#">Account Balance</a>
